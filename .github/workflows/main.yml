@@ -7,17 +7,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Obtener codigo del repositorio
         uses: actions/checkout@v4
 
-      - name: Compilar APK con Buildozer
-        uses: ArtemSBulgakov/buildozer-action@v1
+      - name: Build with Buildozer
+        uses: kivy/buildozer-action@v1.22
         with:
-          command: android debug
-          buildozer_version: master
+          command: buildozer android debug
+          subfolder: .
 
       - name: Subir APK generado
         uses: actions/upload-artifact@v4
