@@ -20,22 +20,12 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
-      - name: Cache Buildozer global directories
-        uses: actions/cache@v3
-        with:
-          path: |
-            .buildozer
-            ~/.buildozer
-          key: ${{ runner.os }}-${{ hashFiles('buildozer.spec') }}-v2
-          restore-keys: |
-            ${{ runner.os }}-
-
       - name: Instalar dependencias del sistema
         run: |
           sudo apt-get update
           sudo apt-get install -y git zip unzip openjdk-11-jdk python3.10 python3.10-venv python3.10-dev autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libssl-dev libffi-dev libjpeg-dev libpng-dev ninja-build
 
-      - name: Crear entorno virtual e instalar Buildozer
+      - name: Configurar Python y Buildozer
         run: |
           python3.10 -m venv venv
           source venv/bin/activate
@@ -43,10 +33,10 @@ jobs:
           pip install Cython==0.29.36
           pip install buildozer==1.5.0
 
-      - name: Compilar APK con Buildozer
+      - name: Compilar APK con Buildozer (Modo Verbose)
         run: |
           source venv/bin/activate
-          buildozer -v android debug
+          yes | buildozer -v android debug
 
       - name: Subir APK generado
         uses: actions/upload-artifact@v4
