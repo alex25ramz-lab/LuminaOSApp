@@ -35,6 +35,10 @@ jobs:
           pip install Cython==0.29.36
           pip install buildozer
 
+      - name: Limpiar compilaciones previas
+        run: |
+          buildozer clean || true
+
       - name: Compilar APK con Buildozer
         run: |
           buildozer android debug
