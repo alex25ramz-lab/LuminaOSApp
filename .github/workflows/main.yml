@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    timeout-minutes: 30
 
     steps:
       - name: Checkout del repositorio
@@ -18,6 +19,16 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
+
+      - name: Cache Buildozer global directories
+        uses: actions/cache@v3
+        with:
+          path: |
+            .buildozer
+            ~/.buildozer
+          key: ${{ runner.os }}-${{ hashFiles('buildozer.spec') }}-v2
+          restore-keys: |
+            ${{ runner.os }}-
 
       - name: Instalar dependencias del sistema
         run: |
